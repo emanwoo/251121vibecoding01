@@ -118,8 +118,7 @@ def draw_orbit_diagram(angle_rad):
     sun_pos = (5, 0) # 시각적 편의를 위해 거리 축소
     orbit_radius = 2.5
     
-    # 달의 위치 계산 (태양이 0도 기준일 때의 각도)
-    # angle_rad는 태양 기준 달의 이각(Elongation)입니다.
+    # 달의 위치 계산
     moon_x = orbit_radius * math.cos(angle_rad)
     moon_y = orbit_radius * math.sin(angle_rad)
     
@@ -139,8 +138,15 @@ def draw_orbit_diagram(angle_rad):
         name="Sun"
     ))
     
-    # 태양 빛 화살표 (지구 방향으로)
-    fig.add_annotation(x=2, y=0, ax=4, ay=0, showarrow=True, arrowheads=2, arrowsize=1, arrowcolor="orange", opacity=0.5)
+    # [수정된 부분] 태양 빛 화살표
+    # arrowheads -> arrowhead (수정), opacity 제거 (수정)
+    fig.add_annotation(
+        x=2, y=0, ax=4, ay=0, 
+        showarrow=True, 
+        arrowhead=2,    # 여기가 수정되었습니다 (s 제거)
+        arrowsize=1, 
+        arrowcolor="orange" # opacity 옵션은 제거했습니다
+    )
 
     # 3. 지구 그리기 (고정)
     fig.add_trace(go.Scatter(
@@ -163,7 +169,7 @@ def draw_orbit_diagram(angle_rad):
     # 레이아웃 설정
     fig.update_layout(
         title="<b>[우주 관점]</b> 태양-지구-달 위치 관계",
-        xaxis=dict(visible=False, range=[-3.5, 6]), # 태양까지 보이게 범위 설정
+        xaxis=dict(visible=False, range=[-3.5, 6]),
         yaxis=dict(visible=False, range=[-3.5, 3.5]),
         width=400, height=300,
         margin=dict(l=10, r=10, t=40, b=10),
